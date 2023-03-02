@@ -1,9 +1,8 @@
 def app():
-    print("Hello World!")
-    a = 2
-    b = 3
-    c = a + b
-    print(c)
+    my_name = "ina"
+    print(my_name)
+    boo = True
+    fal = False
 
 
 if __name__ == '__main__':
