@@ -1,8 +1,8 @@
 def app():
-    my_name = "ina"
-    print(my_name)
-    boo = True
-    fal = False
+    def say_hello():
+        print("Hello World")
+
+    say_hello()
 
 
 if __name__ == '__main__':
