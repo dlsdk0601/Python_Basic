@@ -1,14 +1,12 @@
 def app():
-    def say_hello(user_name="default"):
-        print("hello", user_name)
+    def tax_calc(money):
+        return money * 0.35
 
-    say_hello("hello")
-    say_hello()
+    def pay_tax(tax):
+        print("thank you for paying", tax)
 
-    def plus(a=0, b=0):
-        print(a+b)
-
-    plus()
+    to_pay = tax_calc(15000000)
+    pay_tax(to_pay)
 
 
 if __name__ == '__main__':
