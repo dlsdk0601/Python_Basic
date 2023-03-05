@@ -1,10 +1,14 @@
 def app():
-    def say_hello(user_name, user_age):
-        print(f"Hello, {user_name} how r u? your age is {user_age}")
-        print("Hello", user_name, "how r u? your age is", user_age)
+    def say_hello(user_name="default"):
+        print("hello", user_name)
 
-    say_hello("ina", 30)
-    say_hello(user_name="ina", user_age=20)
+    say_hello("hello")
+    say_hello()
+
+    def plus(a=0, b=0):
+        print(a+b)
+
+    plus()
 
 
 if __name__ == '__main__':
