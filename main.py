@@ -1,12 +1,22 @@
 def app():
-    def tax_calc(money):
-        return money * 0.35
 
-    def pay_tax(tax):
-        print("thank you for paying", tax)
+    a = "string"
+   if a == "string":
+       print("True")
 
-    to_pay = tax_calc(15000000)
-    pay_tax(to_pay)
+    password = False
+    if password:
+        print("True")
+    else:
+        print("False")
+
+    winner = 10
+    if winner > 10:
+        print("winner")
+    elif winner < 10:
+        print("winnerddd")
+    else:
+        print("else")
 
 
 if __name__ == '__main__':
