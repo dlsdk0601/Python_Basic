@@ -1,22 +1,17 @@
 def app():
+    age = int(input("how old r u?"))
+    print(age)
 
-    a = "string"
-   if a == "string":
-       print("True")
+    # typeof 함수
+    print(type(age))
 
-    password = False
-    if password:
-        print("True")
-    else:
-        print("False")
-
-    winner = 10
-    if winner > 10:
-        print("winner")
-    elif winner < 10:
-        print("winnerddd")
-    else:
-        print("else")
+    if age > 18:
+        print("어른")
+    # elif age > 18 and age < 35:
+    elif 18 < age < 35:
+        print("애")
+    elif age == 60 or age == 70:
+        print("늙은이")
 
 
 if __name__ == '__main__':
