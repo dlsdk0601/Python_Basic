@@ -2,15 +2,18 @@ from random import randint
 
 
 def app():
-    user_choice = int(input("Choose number."))
     pc_choice = randint(1, 50)
+    playing = True
 
-    if user_choice == pc_choice:
-        print("승")
-    elif user_choice > pc_choice:
-        print("아래", pc_choice)
-    elif user_choice < pc_choice:
-        print("위", pc_choice)
+    while playing:
+        user_choice = int(input("Choose number."))
+        if user_choice == pc_choice:
+            print("승")
+            playing = False
+        elif user_choice > pc_choice:
+            print("아래")
+        elif user_choice < pc_choice:
+            print("위")
 
 
 if __name__ == '__main__':
