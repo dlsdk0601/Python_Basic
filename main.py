@@ -1,30 +1,19 @@
 from requests import get
+from bs4 import BeautifulSoup
+
 
 def app():
-    websites = (
-        "google.com",
-        "https://airbnb.com",
-        "twitter.com",
-        "facebook.com"
-    )
+    base_url = "https://weworkremotely.com/remote-jobs/search?term="
+    search_term = "python"
+    res = get(f"{base_url}{search_term}")
 
-    results = {}
-
-    for website in websites:
-        if not website.startswith("https://"):
-            print("fixed")
-            website = f'https://{website}'
-
-        res = get(website)
+    if res.status_code != 200:
+        print("Can not request website")
+    else:
         print("res")
-        print(res)
-        print(res.status_code)
-        if res.status_code == 200:
-            print(f'{website} is Ok')
-            results[website] = "OK"
-        else:
-            print(f'{website}is not Ok')
-            results[website] = "FAIL"
+        soup = BeautifulSoup(res.text, "html.parser")
+        jobs = soup.find_all("section", class_="jobs")
+        print(jobs)
 
 
 if __name__ == '__main__':
