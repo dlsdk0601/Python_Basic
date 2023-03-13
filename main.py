@@ -1,11 +1,18 @@
+from requests import get
+
 def app():
-    # Tuple
-    # List 와 아주 비슷함
-    days = ("Mon", "Tue", "Wed") # 절대 불변할 데이터 이기 때문에 상황 봐서 list, Tuple 선택해서 쓰기
-    days.count()  # 3
-    # 이외에는 메서드가 없음
-    print(days[0]) # "Mon"
-    print(days[-1]) # "Wed"
+    websites = (
+        "google.com",
+        "https://airbnb.com",
+        "twitter.com",
+        "facebook.com"
+    )
+
+    for website in websites:
+        if not website.startswith("https://"):
+            print("fixed")
+            website = f'https://{website}'
+
 
 
 if __name__ == '__main__':
