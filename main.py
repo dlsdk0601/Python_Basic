@@ -1,12 +1,11 @@
 def app():
-    days_of_week = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
-    print(days_of_week)
-    print(days_of_week[1])  # tue
-    days_of_week.count("wed")  # wed 와 같은 값은 몇개 있는지
-    days_of_week.clear()  # []
-    days_of_week.reverse()  # 반대로 순서 변경
-    days_of_week.append("ddd")  # ddd 값 추가
-    days_of_week.remove("mon")  # mon 삭제
+    # Tuple
+    # List 와 아주 비슷함
+    days = ("Mon", "Tue", "Wed") # 절대 불변할 데이터 이기 때문에 상황 봐서 list, Tuple 선택해서 쓰기
+    days.count()  # 3
+    # 이외에는 메서드가 없음
+    print(days[0]) # "Mon"
+    print(days[-1]) # "Wed"
 
 
 if __name__ == '__main__':
