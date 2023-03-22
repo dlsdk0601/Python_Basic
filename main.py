@@ -1,71 +1,43 @@
 from flask import Flask, render_template, request, redirect, send_file
 
+from extractors.indeed import extract_indeed_jobs
 from extractors.wwr import extract_wwr_jobs
+from file import save_to_file
 
-options = Options()
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
+app = Flask('JobScrapper')
 
-browser = webdriver.Chrome(options=options)
+db = {}
 
 
-def get_page_count(keyword):
-    base_url = "https://kr.indeed.com/jobs?q="
+@app.route('/')
+def home():
+    return render_template('home.html')
 
-    response = get(f"{base_url}{keyword}")
 
-    if response.status_code != 200:
-        return 0
+@app.route("/search")
+def search():
+    keyword = request.args.get('keyword')
+    if keyword is None:
+        return redirect('/')
+    if keyword in db:
+        jobs = db[keyword]
     else:
-        soup = BeautifulSoup(response.text, "html.parser")
-        pagination = soup.find("ul", class_="pagination-list")
-        if pagination is None:
-            return 1
-        else:
-            pages = pagination.find_all("li", recursive=False)
-            count = len(pages)
-            if count >= 5:
-                return 5
-            else:
-                return count
+        indeed = extract_indeed_jobs(keyword)
+        wwr = extract_wwr_jobs(keyword)
+        jobs = indeed + wwr
+        db[keyword] = jobs
+    return render_template('search.html', keyword=keyword, jobs=jobs)
 
 
-def extract_indeed_jobs(keyword):
-    pages = get_page_count(keyword)
-    for page in range(pages):
-        base_url = "https://kr.indeed.com/jobs?q="
-
-        response = get(f"{base_url}{keyword}")
-
-        if response.status_code != 200:
-            print("bad")
-        else:
-            results = []
-            soup = BeautifulSoup(response.text, "html.parser")
-            job_list = soup.find("ul", clss_="jobsearch-ResultsList")
-            jobs = job_list.find_all("li", recursive=False)
-            for job in jobs:
-                zone = job.find("div", class_="mosaic-zone")
-                if zone is None:
-                    anchor = job.select("h2 a")
-                    title = anchor["aria-label"]
-                    link = anchor["href"]
-                    company = job.find("span", class_="companyName")
-                    location = job.find("div", class_="companyLocation")
-                    job_data = {
-                        'link': f"https://kr.indeed.com/{link}",
-                        'company': company.string,
-                        'location': location.string,
-                        'position': title,
-                    }
-                    results.append(job_data)
-            for result in results:
-                print(result, "\n/////\n")
+@app.route('/export')
+def export():
+    keyword = request.args.get('keyword')
+    if keyword is None:
+        return redirect('/')
+    if keyword not in db:
+        return redirect(f'/search?keyword={keyword}')
+    save_to_file(keyword, db[keyword])
+    return send_file(f'{keyword}.csv', as_attachment=True)
 
 
-def app():
-    extract_indeed_jobs()
-
-
-if __name__ == '__main__':
-    app()
+app.run('0.0.0.0')
